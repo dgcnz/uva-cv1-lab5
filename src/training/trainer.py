@@ -82,7 +82,7 @@ def train_model(
                         torch.save(model.state_dict(), best_model_params_path)
 
                     if early_stopper:
-                        early_stopper._losses.append(epoch_loss)
+                        early_stopper.losses.append(epoch_loss)
                         if early_stopper.stop():
                             model.load_state_dict(torch.load(best_model_params_path))
                             return model
