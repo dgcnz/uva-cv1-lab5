@@ -1,10 +1,10 @@
 import os
 
 import torch.optim as optim
+import wandb
 from torch.optim import lr_scheduler
 from torchvision import datasets
 
-import wandb
 from src.datasets.dataloaders import init_dataloaders
 from src.datasets.trainsformations import default_transforms
 from src.models.vision_model import Resnet18

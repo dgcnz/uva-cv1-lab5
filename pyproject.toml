@@ -14,12 +14,13 @@ wandb = "^0.15.12"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.9.1"
+black = {extras = ["jupyter"], version = "^23.9.1"}
 isort = "^5.12.0"
 flake8 = "^6.1.0"
 flake8-pyproject = "^1.2.3"
 ipython = "^8.16.1"
 pre-commit = "^3.4.0"
+jupyter = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -41,6 +42,7 @@ exclude = '''
   | build
   | dist
   | condaenv
+  | *.ipynb
 )/
 '''
 max_line_length = 99
