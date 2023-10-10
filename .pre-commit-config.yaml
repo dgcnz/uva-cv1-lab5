@@ -1,0 +1,21 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: isort
+        name: Run isort
+        entry: poetry run isort src/
+        language: system
+      - id: black
+        name: Run black
+        entry: poetry run black src/
+        language: system
+      - id: flake8
+        name: Run flake8
+        entry: poetry run flake8 src/
+        language: system
