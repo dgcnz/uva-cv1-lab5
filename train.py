@@ -8,7 +8,8 @@ import wandb
 from src.datasets.dataloaders import init_dataloaders
 from src.datasets.trainsformations import default_transforms
 from src.models.vision_model import Resnet18
-from src.trainer.trainer import train_model
+from src.training.early_stopper import EarlyStopper
+from src.training.trainer import train_model
 from src.utils.wandb import init_wandb
 
 if __name__ == "__main__":
@@ -41,6 +42,8 @@ if __name__ == "__main__":
         "hymenoptera", train_set=image_datasets["train"], val_set=image_datasets["val"]
     )
 
+    early_stopper = EarlyStopper(patience=5)
+
     init_wandb(
         dataloaders["name"],
         scheduler,
@@ -61,6 +64,7 @@ if __name__ == "__main__":
         scheduler_params=scheduler_params,
         scheduler=scheduler,
         optimizer=optimizer,
+        early_stopper=early_stopper,
     )
     model.unfreeze()
     model = train_model(
@@ -72,5 +76,6 @@ if __name__ == "__main__":
         scheduler_params=scheduler_params,
         scheduler=scheduler,
         optimizer=optimizer,
+        early_stopper=early_stopper,
     )
     wandb.finish()

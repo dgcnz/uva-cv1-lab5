@@ -18,6 +18,7 @@ def train_model(
     scheduler=lr_scheduler.StepLR,
     scheduler_params={},
     fine_tune=False,
+    early_stopper=None,
 ):
     if fine_tune:
         wandb.config.update({"fine_tune_learnable_params": model.learnable_parameters})
@@ -75,9 +76,16 @@ def train_model(
                         {f"{phase}_loss_finetune": epoch_loss, f"{phase}_acc_finetune": epoch_acc}
                     )
 
-                if phase == "val" and epoch_acc > best_acc:
-                    best_acc = epoch_acc
-                    torch.save(model.state_dict(), best_model_params_path)
+                if phase == "val":
+                    if epoch_acc > best_acc:
+                        best_acc = epoch_acc
+                        torch.save(model.state_dict(), best_model_params_path)
+
+                    if early_stopper:
+                        early_stopper._losses.append(epoch_loss)
+                        if early_stopper.stop():
+                            model.load_state_dict(torch.load(best_model_params_path))
+                            return model
 
         model.load_state_dict(torch.load(best_model_params_path))
     return model
