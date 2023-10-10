@@ -44,6 +44,10 @@ Part 2: Image Classification using Convolutional Neural Networks
 
 Before training, make sure to setup the environment by running `poetry install` and activating the shell with `poetry shell`. Afterwards, login to wandb with `wandb login` and run `python train.py` to train the model.
 
+### STL-10
+
+To train on STL-10 dataset, first download the dataset by running script `python ./scripts/download_stl10.py`.
+
 ## Contributing
 
 Before committing, make sure to setup the pre-commit hook by running `pre-commit install`. This will run the linter and formatter before committing. If you want to run the linter and formatter manually, run `pre-commit run --all-files`.

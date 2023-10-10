@@ -1,19 +1,19 @@
-import os
-
 import torch.optim as optim
 import wandb
 from torch.optim import lr_scheduler
-from torchvision import datasets
+from torch.utils.data import random_split
 
 from src.datasets.dataloaders import init_dataloaders
+from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import default_transforms
 from src.models.vision_model import Resnet18
 from src.training.early_stopper import EarlyStopper
+from src.training.evaluator import Evaluator
 from src.training.trainer import train_model
 from src.utils.wandb import init_wandb
 
 if __name__ == "__main__":
-    model = Resnet18(num_classes=2)
+    model = Resnet18(num_classes=5)
 
     scheduler = lr_scheduler.StepLR
     scheduler_params = {
@@ -31,18 +31,18 @@ if __name__ == "__main__":
         "momentum": 0.9,
     }
 
-    # load data
-    data_dir = "data/hymenoptera_data"
-    image_datasets = {
-        x: datasets.ImageFolder(os.path.join(data_dir, x), default_transforms[x])
-        for x in ["train", "val"]
-    }
-
-    dataloaders = init_dataloaders(
-        "hymenoptera", train_set=image_datasets["train"], val_set=image_datasets["val"]
+    train_dataset = STL10_Dataset(train=True)
+    train_size = int(0.8 * len(train_dataset))
+    train_dataset, val_dataset = random_split(
+        train_dataset, [train_size, len(train_dataset) - train_size]
     )
+    train_dataset.dataset.transform = default_transforms["train"]
+    val_dataset.dataset.transform = default_transforms["val"]
 
-    early_stopper = EarlyStopper(patience=5)
+    val_dataset.transform = default_transforms["val"]
+    test_dataset = STL10_Dataset(train=False, transform=default_transforms["val"])
+
+    dataloaders = init_dataloaders("stl10", train_set=train_dataset, val_set=val_dataset)
 
     init_wandb(
         dataloaders["name"],
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         scheduler_params=scheduler_params,
         scheduler=scheduler,
         optimizer=optimizer,
-        early_stopper=early_stopper,
+        early_stopper=EarlyStopper(patience=5),
     )
     model.unfreeze()
     model = train_model(
@@ -76,6 +76,12 @@ if __name__ == "__main__":
         scheduler_params=scheduler_params,
         scheduler=scheduler,
         optimizer=optimizer,
-        early_stopper=early_stopper,
+        early_stopper=EarlyStopper(patience=5),
     )
+
+    # TODO: Fix this
+
+    # evaluated_metrics = Evaluator().evaluate(test_dataset, model)
+    # wandb.log(evaluated_metrics)
+
     wandb.finish()
