@@ -1,8 +1,8 @@
 import torch.optim as optim
-import wandb
 from torch.optim import lr_scheduler
 from torch.utils.data import random_split
 
+import wandb
 from src.datasets.dataloaders import init_dataloaders
 from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import default_transforms
@@ -25,7 +25,7 @@ if __name__ == "__main__":
         "lr": 0.001,
         "momentum": 0.9,
     }
-    max_epochs = 2
+    max_epochs = 10
     optimizer_params_finetune = {
         "lr": 0.0001,
         "momentum": 0.9,
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         scheduler_params=scheduler_params,
         scheduler=scheduler,
         optimizer=optimizer,
-        early_stopper=EarlyStopper(patience=5),
+        early_stopper=EarlyStopper(patience=3),
     )
     model.unfreeze()
     model = train_model(
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         scheduler_params=scheduler_params,
         scheduler=scheduler,
         optimizer=optimizer,
-        early_stopper=EarlyStopper(patience=5),
+        early_stopper=EarlyStopper(patience=3),
     )
 
     Evaluator().evaluate_and_log(test_dataset, model)
