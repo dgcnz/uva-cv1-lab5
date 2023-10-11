@@ -3,9 +3,8 @@ from tempfile import TemporaryDirectory
 
 import torch
 import torch.optim as optim
-from torch.optim import lr_scheduler
-
 import wandb
+from torch.optim import lr_scheduler
 
 
 def train_model(

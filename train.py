@@ -1,8 +1,8 @@
 import torch.optim as optim
+import wandb
 from torch.optim import lr_scheduler
 from torch.utils.data import random_split
 
-import wandb
 from src.datasets.dataloaders import init_dataloaders
 from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import default_transforms
