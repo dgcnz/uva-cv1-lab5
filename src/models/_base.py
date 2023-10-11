@@ -14,7 +14,7 @@ class Model(nn.Module):
     def forward(self, x, targets=torch.tensor([])):
         x = self._model(x)
 
-        if len(targets.size()) == 0:
+        if targets.size() == torch.Size([0]):
             return x, None
         else:
             loss = F.cross_entropy(x, targets)

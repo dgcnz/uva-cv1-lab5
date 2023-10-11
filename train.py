@@ -79,9 +79,6 @@ if __name__ == "__main__":
         early_stopper=EarlyStopper(patience=5),
     )
 
-    # TODO: Fix this
-
-    # evaluated_metrics = Evaluator().evaluate(test_dataset, model)
-    # wandb.log(evaluated_metrics)
+    Evaluator().evaluate_and_log(test_dataset, model)
 
     wandb.finish()

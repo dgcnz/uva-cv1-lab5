@@ -26,6 +26,10 @@ class STL10_Dataset(Dataset):
     def __len__(self):
         return len(self._data)
 
+    @property
+    def classes(self):
+        return ["car", "deer", "horse", "monkey", "truck"]
+
     def __getitem__(self, item):
         img_path = self._data[item]
 

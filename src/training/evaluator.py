@@ -1,21 +1,16 @@
 import torch
-from sklearn.metrics import (
-    accuracy_score,
-    confusion_matrix,
-    f1_score,
-    precision_score,
-    recall_score,
-)
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from torch.utils.data import DataLoader
+
+import wandb
 
 
 class Evaluator:
     _METRICS = {
-        "accuracy": accuracy_score,
-        "precision": precision_score,
-        "recall": recall_score,
-        "f1": f1_score,
-        "confusion_matrix": confusion_matrix,
+        "accuracy": lambda x: accuracy_score(x[0], x[1]),
+        "precision": lambda x: precision_score(x[0], x[1], average="macro"),
+        "recall": lambda x: recall_score(x[0], x[1], average="macro"),
+        "f1": lambda x: f1_score(x[0], x[1], average="macro"),
     }
 
     def _get_predictions(
@@ -36,7 +31,7 @@ class Evaluator:
                 inputs = inputs.to(device)
                 labels = labels.to(device)
 
-                outputs = model(inputs)
+                outputs, _ = model(inputs)
                 _, preds = torch.max(outputs, 1)
 
                 y_true.append(labels.cpu().numpy())
@@ -44,12 +39,25 @@ class Evaluator:
 
         return y_true, y_pred
 
-    def evaluate(self, test_dataset, model):
+    def evaluate_and_log(self, test_dataset, model):
         metrics = {}
 
         y_true, y_pred = self._get_predictions(test_dataset, model)
 
         for metric in Evaluator._METRICS:
-            metrics[metric] = Evaluator._METRICS[metric](y_true, y_pred)
+            metrics[metric] = Evaluator._METRICS[metric]((y_true, y_pred))
 
-        return metrics
+        wandb.log(metrics)
+        y_pred = [i[0] for i in y_pred]
+        y_true = [i[0] for i in y_true]
+
+        wandb.log(
+            {
+                "confusion_matrix": wandb.plot.confusion_matrix(
+                    probs=None,
+                    y_true=y_true,
+                    preds=y_pred,
+                    class_names=test_dataset.classes,
+                )
+            }
+        )
