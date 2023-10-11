@@ -8,8 +8,8 @@ class EarlyStopper:
         if len(self.losses) < self._patience:
             return False
 
-        for i in range(1, self._patience + 1):
-            if self.losses[-i] - self.losses[-i - 1] > self._delta:
+        for i in range(1, self._patience):
+            if self.losses[-i - 1] - self._delta > self.losses[-i]:
                 return False
 
         return True
