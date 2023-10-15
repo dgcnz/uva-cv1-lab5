@@ -18,7 +18,7 @@ else:
 
 try:
     from imageio import imsave
-except:
+except ImportError:
     from scipy.misc import imsave
 
 print(sys.version_info)
@@ -164,7 +164,7 @@ def save_images(images, labels, split="train"):
 
 if __name__ == "__main__":
     # download data if needed
-    # download_and_extract()
+    download_and_extract()
 
     train_images = read_all_images(DATA_PATH_TRAIN)
     train_labels = read_labels(LABEL_PATH_TRAIN)
