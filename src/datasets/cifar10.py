@@ -4,7 +4,7 @@ from PIL import Image
 
 
 class CIFAR10(torchvision.datasets.CIFAR10):
-    def __init__(self, root, train=True, transform=None, download=True, N=None):
+    def __init__(self, root="./data", train=True, transform=None, download=True, N=None):
         """
         Initializes a CIFAR10_loader instance.
 

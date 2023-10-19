@@ -9,7 +9,8 @@ def test_lenet5_base():
     model = LeNet5(num_classes)
     x = torch.randn(2, 3, 32, 32)
     try:
-        y = model(x)
+        y, _ = model(x)
+        print(y)
         assert y.shape == (2, num_classes)
     except Exception as e:
         pytest.fail(e)
