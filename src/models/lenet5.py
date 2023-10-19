@@ -18,7 +18,8 @@ class LeNet5(Model):
         # in 5 x 5 * 16
         self.s4 = nn.AvgPool2d(kernel_size=2, stride=2)
         # in 5 x 5 * 16
-        self.c5 = nn.Conv2d(16, 120, kernel_size=5, stride=1, padding=0)  # could also be fcn layer
+        self.f5 = nn.Linear(5 * 5 * 16, 120)
+        # self.c5 = nn.Conv2d(16, 120, kernel_size=5, stride=1, padding=0)  # could also be fcn layer
         # in 1 x 1 * 120
         self.f6 = nn.Linear(120, 84)
         self.f7 = nn.Linear(84, num_classes)
@@ -27,9 +28,9 @@ class LeNet5(Model):
         B, *_ = x.shape
         x = self.s2(F.tanh(self.c1(x)))
         x = self.s4(F.tanh(self.c3(x)))
-        x = F.tanh(self.c5(x))
+        # x = F.tanh(self.c5(x))
         x = x.reshape(B, -1)
+        x = F.tanh(self.f5(x))
         x = F.tanh(self.f6(x))
-        x = F.tanh(self.f7(x))
-        x = F.softmax(x, dim=1)
+        x = self.f7(x)
         return x
