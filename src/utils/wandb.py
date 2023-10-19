@@ -17,5 +17,6 @@ def init_wandb(
             },
             "max_epochs": num_epochs,
             "model": model.name,
+            "model_architecture": str(model),
         },
     )
