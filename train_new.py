@@ -50,7 +50,7 @@ if __name__ == "__main__":
         "lr": 0.001,
         "momentum": 0.9,
     }
-    max_epochs = 1
+    max_epochs = 10
     optimizer_params_finetune = {
         "lr": 0.0001,
         "momentum": 0.9,
