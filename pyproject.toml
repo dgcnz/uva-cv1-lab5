@@ -2,6 +2,9 @@
 name = "uva-cv1-lab5"
 version = "0.1.0"
 description = ""
+packages = [
+    { include = "src" },
+]
 authors = ["dqmis <dom.seputis@gmail.com>"]
 readme = "README.md"
 
@@ -24,6 +27,7 @@ flake8-pyproject = "^1.2.3"
 ipython = "^8.16.1"
 pre-commit = "^3.4.0"
 ipykernel = "^6.25.2"
+pytest = "^7.4.2"
 
 [build-system]
 requires = ["poetry-core"]

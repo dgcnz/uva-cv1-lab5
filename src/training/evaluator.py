@@ -1,8 +1,7 @@
 import torch
+import wandb
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from torch.utils.data import DataLoader
-
-import wandb
 
 
 class Evaluator:
