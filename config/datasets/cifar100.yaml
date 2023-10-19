@@ -1,0 +1,6 @@
+name: cifar100
+num_classes: 100
+dim:
+  channels: 3
+  size: 32
+
