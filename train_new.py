@@ -7,8 +7,9 @@ from src.datasets.dataloaders import init_dataloaders
 from src.datasets.cifar100 import CIFAR100_loader
 from src.datasets.cifar10 import CIFAR10
 from src.datasets.stl10 import STL10_Dataset
-from src.datasets.trainsformations import default_transforms
+from src.datasets.trainsformations import sized_transform
 from src.models.twolayer import TwoLayerNet
+from src.models.lenet5 import LeNet5
 from src.training.early_stopper import EarlyStopper
 from src.training.evaluator import Evaluator
 from src.training.trainer import train_model
@@ -21,15 +22,23 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dataset_config", default="config/datasets/stl10.yaml", type=str, help="dataset"
     )
+    parser.add_argument(
+        "--model", default="twolayernet", type=str, help="model", choices=["twolayernet", "lenet5"]
+    )
     args = parser.parse_args()
 
     dataset_conf = OmegaConf.load(args.dataset_config)
 
-    model = TwoLayerNet(
-        dataset_conf.dim.channels * dataset_conf.dim.width * dataset_conf.dim.height,
-        hidden_size=120,
-        num_classes=dataset_conf.num_classes,
-    )
+    if args.model == "twolayernet":
+        model = TwoLayerNet(
+            dataset_conf.dim.channels * 224 * 224,
+            hidden_size=120,
+            num_classes=dataset_conf.num_classes,
+        )
+    elif args.model == "lenet5":
+        model = LeNet5(num_classes=dataset_conf.num_classes)
+    else:
+        raise NotImplementedError(f"Training model {args.model} not implemented.")
 
     scheduler = lr_scheduler.StepLR
     scheduler_params = {
@@ -53,11 +62,12 @@ if __name__ == "__main__":
     train_dataset, val_dataset = random_split(
         train_dataset, [train_size, len(train_dataset) - train_size]
     )
-    train_dataset.dataset.transform = default_transforms["train"]
-    val_dataset.dataset.transform = default_transforms["val"]
+    transform = sized_transform(dataset_conf.dim.size)
+    train_dataset.dataset.transform = transform["train"]
+    val_dataset.dataset.transform = transform["val"]
 
-    val_dataset.transform = default_transforms["val"]
-    test_dataset = dataset_classes[dataset_conf.name](train=False, transform=default_transforms["val"])
+    val_dataset.transform = transform["val"]
+    test_dataset = dataset_classes[dataset_conf.name](train=False, transform=transform["val"])
 
     dataloaders = init_dataloaders(dataset_conf.name, train_set=train_dataset, val_set=val_dataset)
 

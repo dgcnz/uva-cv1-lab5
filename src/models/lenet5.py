@@ -3,7 +3,6 @@ import torch.nn as nn
 from src.models.vision_model import VisionModel
 from collections import OrderedDict
 
-
 class LeNet5(VisionModel):
     _name = "LeNet-5-Base"
 

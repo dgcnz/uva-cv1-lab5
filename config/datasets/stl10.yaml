@@ -2,6 +2,5 @@ name: stl10
 num_classes: 10
 dim:
   channels: 3
-  width: 96
-  height: 96
+  size: 96
 

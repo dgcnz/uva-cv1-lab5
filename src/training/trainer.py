@@ -11,7 +11,7 @@ def train_model(
     model,
     dataloaders,
     num_epochs=25,
-    device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
+    device=torch.device("cuda:0" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() and torch.backends.mps.is_built() else "cpu"),
     optimizer=optim.SGD,
     optimizer_params={},
     scheduler=lr_scheduler.StepLR,
@@ -66,7 +66,7 @@ def train_model(
                     scheduler.step()
 
                 epoch_loss = running_loss / dataloaders["phases"][phase]["size"]
-                epoch_acc = running_corrects.double() / dataloaders["phases"][phase]["size"]
+                epoch_acc = running_corrects.float() / dataloaders["phases"][phase]["size"]
 
                 if not fine_tune:
                     wandb.log({f"{phase}_loss": epoch_loss, f"{phase}_acc": epoch_acc})

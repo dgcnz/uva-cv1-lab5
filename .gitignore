@@ -4,3 +4,4 @@ wandb/
 data/*
 !data/.gitkeep
 notebooks/data
+.DS_Store

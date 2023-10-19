@@ -18,3 +18,22 @@ default_transforms = {
         ]
     ),
 }
+
+def sized_transform(size: int = 224):
+    return {
+        "train": transforms.Compose(
+            [
+                transforms.RandomResizedCrop(size),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ]
+        ),
+        "val": transforms.Compose(
+            [
+                transforms.Resize(size),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ]
+        ),
+    }
