@@ -1,0 +1,6 @@
+name: cifar10
+num_classes: 10
+dim:
+  channels: 3
+  size: 32
+

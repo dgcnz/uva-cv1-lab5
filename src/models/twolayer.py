@@ -1,10 +1,13 @@
 import torch.nn as nn
+from collections import OrderedDict
 import torch.nn.functional as F
 
-from src.models._base import Model
+from src.models.vision_model import VisionModel
 
 
-class TwoLayerNet(Model):
+
+
+class TwoLayerNet(VisionModel):
     _name = "TwoLayerNet"
 
     def __init__(self, input_size: int, hidden_size: int, num_classes: int):
@@ -14,10 +17,11 @@ class TwoLayerNet(Model):
         :param num_classes
         """
         super().__init__()
-        self.fc1 = nn.Linear(input_size, hidden_size)
-        self.fc2 = nn.Linear(hidden_size, num_classes)
+        self._model_dict = OrderedDict([
+            ("flatten", nn.Flatten()),
+            ("fc1", nn.Linear(input_size, hidden_size)),
+            ("relu", nn.ReLU()),
+            ("fc", nn.Linear(hidden_size, num_classes))
+        ])
+        self._model = nn.Sequential(self._model_dict)
 
-    def forward(self, x):
-        x = x.view(x.shape[0], -1)
-        scores = self.fc2(F.relu(self.fc1(x)))
-        return scores
