@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     if args.model == "twolayernet":
         model = TwoLayerNet(
-            dataset_conf.dim.channels * 224 * 224,
+            dataset_conf.dim.channels * dataset_conf.dim.size * dataset_conf.dim.size,
             hidden_size=120,
             num_classes=dataset_conf.num_classes,
         )
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         "lr": 0.001,
         "momentum": 0.9,
     }
-    max_epochs = 10
+    max_epochs = 1
     optimizer_params_finetune = {
         "lr": 0.0001,
         "momentum": 0.9,
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         model,
         dataloaders,
         num_epochs=max_epochs,
-        fine_tune=True,
+        fine_tune=False,
         optimizer_params=optimizer_params,
         scheduler_params=scheduler_params,
         scheduler=scheduler,
