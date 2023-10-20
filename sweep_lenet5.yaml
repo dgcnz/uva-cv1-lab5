@@ -8,14 +8,14 @@ parameters:
   dataset:
     value: cifar100
   model:
-    value: lenet5
+    values: [lenet5, lenet5_base_improved]
   max_epochs:
-    value: 20
+    value: 50
   step_size:
     value: 7
   gamma:
     value: 0.1 
   lr:
-    values: [0.001, 0.005]
+    value: 0.001
   momentum:
     value: 0.9

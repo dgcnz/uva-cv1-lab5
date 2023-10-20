@@ -10,14 +10,14 @@ parameters:
   model:
     value: twolayernet
   hidden_size:
-    values: [120, 160]
+    values: [120, 160, 240]
   max_epochs:
-    value: 20
+    value: 40
   step_size:
     value: 7
   gamma:
     value: 0.1 
   lr:
-    values: [0.001, 0.005]
+    value: 0.001
   momentum:
     value: 0.9

@@ -48,6 +48,20 @@ if __name__ == "__main__":
         }
         max_epochs = config.max_epochs
 
+        config.update(
+            {
+                "scheduler": {
+                    "name": scheduler.__name__,
+                    "params": scheduler_params,
+                },
+                "optimizer": {
+                    "name": optimizer.__name__,
+                    "params": optimizer_params,
+                },
+                "model_architecture": str(model),
+            }
+        )
+
         dataset_classes = {"cifar100": CIFAR100_loader, "stl10": STL10_Dataset, "cifar10": CIFAR10}
         train_dataset = dataset_classes[config.dataset](train=True)
         train_size = int(0.8 * len(train_dataset))
@@ -64,16 +78,6 @@ if __name__ == "__main__":
         dataloaders = init_dataloaders(
             config.dataset, train_set=train_dataset, val_set=val_dataset
         )
-
-        # init_wandb(
-        #     dataloaders["name"],
-        #     scheduler,
-        #     scheduler_params,
-        #     optimizer,
-        #     optimizer_params,
-        #     max_epochs,
-        #     model,
-        # )
 
         model = train_model(
             model,
