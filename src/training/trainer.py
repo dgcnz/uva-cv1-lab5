@@ -5,6 +5,8 @@ import torch
 import torch.optim as optim
 import wandb
 from torch.optim import lr_scheduler
+import torch.multiprocessing
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 
 def train_model(
