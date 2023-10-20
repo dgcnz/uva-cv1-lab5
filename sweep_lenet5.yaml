@@ -10,7 +10,7 @@ parameters:
   model:
     values: [lenet5, lenet5_base_improved]
   max_epochs:
-    value: 50
+    value: 30
   step_size:
     value: 7
   gamma:

@@ -8,11 +8,11 @@ parameters:
   dataset:
     value: cifar100
   model:
-    value: twolayernet
+    values: [twolayernet, twolayernetdeep]
   hidden_size:
     values: [120, 160, 240]
   max_epochs:
-    value: 40
+    value: 30
   step_size:
     value: 7
   gamma:

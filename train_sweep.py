@@ -8,7 +8,7 @@ from src.datasets.cifar100 import CIFAR100_loader
 from src.datasets.cifar10 import CIFAR10
 from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import sized_transform
-from src.models.twolayer import TwoLayerNet
+from src.models.twolayer import TwoLayerNet, TwoLayerNetDeep
 from src.models.lenet5 import LeNet5, LeNet5BaseImproved
 from src.training.early_stopper import EarlyStopper
 from src.training.evaluator import Evaluator
@@ -26,6 +26,12 @@ if __name__ == "__main__":
 
         if config.model == "twolayernet":
             model = TwoLayerNet(
+                dataset_conf.dim.channels * dataset_conf.dim.size * dataset_conf.dim.size,
+                hidden_size=config.hidden_size,
+                num_classes=dataset_conf.num_classes,
+            )
+        elif config.model == "twolayernet_deep":
+            model = TwoLayerNetDeep(
                 dataset_conf.dim.channels * dataset_conf.dim.size * dataset_conf.dim.size,
                 hidden_size=config.hidden_size,
                 num_classes=dataset_conf.num_classes,
