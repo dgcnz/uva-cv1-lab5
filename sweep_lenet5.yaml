@@ -6,7 +6,7 @@ metric:
   goal: maximize
 parameters:
   dataset:
-    value: cifar10
+    value: cifar100
   model:
     value: lenet5
   max_epochs:
