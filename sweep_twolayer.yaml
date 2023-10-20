@@ -1,0 +1,23 @@
+# sweep.yaml
+program: train_sweep.py
+method: grid
+metric:
+  name: f1
+  goal: maximize
+parameters:
+  dataset:
+    value: cifar10
+  model:
+    value: twolayernet
+  hidden_size:
+    values: [120, 160]
+  max_epochs:
+    value: 20
+  step_size:
+    value: 7
+  gamma:
+    value: 0.1 
+  lr:
+    values: [0.001, 0.005]
+  momentum:
+    value: 0.9
