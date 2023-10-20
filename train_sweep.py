@@ -9,11 +9,10 @@ from src.datasets.cifar10 import CIFAR10
 from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import sized_transform
 from src.models.twolayer import TwoLayerNet
-from src.models.lenet5 import LeNet5
+from src.models.lenet5 import LeNet5, LeNet5BaseImproved
 from src.training.early_stopper import EarlyStopper
 from src.training.evaluator import Evaluator
 from src.training.trainer import train_model
-from src.utils.wandb import init_wandb
 from omegaconf import OmegaConf
 
 if __name__ == "__main__":
@@ -33,6 +32,8 @@ if __name__ == "__main__":
             )
         elif config.model == "lenet5":
             model = LeNet5(num_classes=dataset_conf.num_classes)
+        elif config.model == "lenet5_base_improved":
+            model = LeNet5BaseImproved(num_classes=dataset_conf.num_classes)
         else:
             raise NotImplementedError(f"Training model {config.model} not implemented.")
 
