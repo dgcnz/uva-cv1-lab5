@@ -27,7 +27,7 @@ def init_wandb(
 def save_model(model):
     with TemporaryDirectory() as tmpdir:
         torch.save(model.state_dict(), os.path.join(tmpdir, "model.pt"))
-        artifact = wandb.Artifact("model", type="model")
+        artifact = wandb.Artifact(wandb.run.name, type="model")
         artifact.add_file(os.path.join(tmpdir, "model.pt"))
         wandb.run.log_artifact(artifact)
 
