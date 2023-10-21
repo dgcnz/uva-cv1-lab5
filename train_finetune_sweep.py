@@ -9,7 +9,7 @@ from src.datasets.cifar10 import CIFAR10
 from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import sized_transform
 from src.models.twolayer import TwoLayerNet, TwoLayerNetDeep
-from src.models.lenet5 import LeNet5, LeNet5BaseImproved
+from src.models.lenet5 import LeNet5, LeNet5BaseImproved, LeNet5DeepImproved
 from src.training.early_stopper import EarlyStopper
 from src.training.evaluator import Evaluator
 from src.training.trainer import train_model
@@ -42,6 +42,8 @@ if __name__ == "__main__":
             model = LeNet5(num_classes=source_dataset_conf.num_classes)
         elif config.model == "lenet5_base_improved":
             model = LeNet5BaseImproved(num_classes=source_dataset_conf.num_classes)
+        elif config.model =="lenet5deepimproved":
+            model = LeNet5DeepImproved(num_classes=source_dataset_conf.num_classes)
         else:
             raise NotImplementedError(f"Training model {config.model} not implemented.")
         

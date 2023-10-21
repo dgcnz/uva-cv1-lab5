@@ -9,7 +9,7 @@ from src.datasets.cifar10 import CIFAR10
 from src.datasets.stl10 import STL10_Dataset
 from src.datasets.trainsformations import sized_transform
 from src.models.twolayer import TwoLayerNet, TwoLayerNetDeep
-from src.models.lenet5 import LeNet5, LeNet5BaseImproved
+from src.models.lenet5 import LeNet5, LeNet5BaseImproved, LeNet5DeepImproved
 from src.training.early_stopper import EarlyStopper
 from src.training.evaluator import Evaluator
 from src.training.trainer import train_model
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         "--dataset_config", default="config/datasets/stl10.yaml", type=str, help="dataset"
     )
     parser.add_argument(
-        "--model", default="twolayernet", type=str, help="model", choices=["twolayernet", "lenet5"]
+        "--model", default="twolayernet", type=str, help="model", choices=["twolayernet", "lenet5", "lenet5deepimproved"]
     )
     parser.add_argument(
         "--hidden_size", default=120, type=int, help="twolayernet hidden size"
@@ -53,6 +53,8 @@ if __name__ == "__main__":
         model = LeNet5(num_classes=dataset_conf.num_classes)
     elif args.model == "lenet5_base_improved":
         model = LeNet5BaseImproved(num_classes=dataset_conf.num_classes)
+    elif args.model == "lenet5deepimproved":
+        model = LeNet5DeepImproved(num_classes=dataset_conf.num_classes)
     else:
         raise NotImplementedError(f"Training model {args.model} not implemented.")
 
@@ -77,7 +79,7 @@ if __name__ == "__main__":
     train_dataset, val_dataset = random_split(
         train_dataset, [train_size, len(train_dataset) - train_size]
     )
-    if args.model in ["lenet5", "lenet5_base_improved"]:
+    if args.model in ["lenet5", "lenet5_base_improved", "lenet5deepimproved"]:
         transform = sized_transform(32)
     else:
         transform = sized_transform(dataset_conf.dim.size)
