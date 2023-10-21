@@ -8,7 +8,7 @@ parameters:
   dataset:
     value: stl10
   checkpoint_artifact:
-    value: cv1_uva/cifar100/model:v0
+    value: cv1_uva/cifar100/deft-bush-11:v0
   model:
     value: lenet5
   model_source_dataset:
