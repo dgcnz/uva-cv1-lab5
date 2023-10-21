@@ -26,6 +26,11 @@ class LeNet5(VisionModel):
                 ]
             )
         self._model = nn.Sequential(self._model_dict)
+    
+    def replace_fc(self, num_classes: int):
+        self._model_dict["fc"] = nn.Linear(84, num_classes)
+        self._model = nn.Sequential(self._model_dict)
+        return self._model
 
 
 class LeNet5BaseImproved(VisionModel):

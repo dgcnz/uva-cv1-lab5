@@ -1,0 +1,25 @@
+# sweep.yaml
+program: train_finetune_sweep.py
+method: grid
+metric:
+  name: f1
+  goal: maximize
+parameters:
+  dataset:
+    value: stl10
+  checkpoint_artifact:
+    value: cv1_uva/cifar100/model:v0
+  model:
+    value: lenet5
+  model_source_dataset:
+    value: cifar100
+  max_epochs:
+    value: 30
+  step_size:
+    value: 7
+  gamma:
+    value: 0.1 
+  lr:
+    value: 0.001
+  momentum:
+    value: 0.9
