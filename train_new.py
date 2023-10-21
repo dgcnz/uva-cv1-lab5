@@ -77,7 +77,10 @@ if __name__ == "__main__":
     train_dataset, val_dataset = random_split(
         train_dataset, [train_size, len(train_dataset) - train_size]
     )
-    transform = sized_transform(dataset_conf.dim.size)
+    if args.model in ["lenet5", "lenet5_base_improved"]:
+        transform = sized_transform(32)
+    else:
+        transform = sized_transform(dataset_conf.dim.size)
     train_dataset.dataset.transform = transform["train"]
     val_dataset.dataset.transform = transform["val"]
 
@@ -109,6 +112,7 @@ if __name__ == "__main__":
     )
 
     Evaluator().evaluate_and_log(test_dataset, model)
-    save_model(model)
+    if args.save_model:
+        save_model(model)
 
     wandb.finish()
