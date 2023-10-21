@@ -28,6 +28,10 @@ if __name__ == "__main__":
     parser.add_argument(
         "--hidden_size", default=120, type=int, help="twolayernet hidden size"
     )
+
+    parser.add_argument(
+        "--max_epochs", default=10, type=int, help="max epochs"
+    )
     parser.add_argument("--save_model", action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
 
@@ -62,7 +66,6 @@ if __name__ == "__main__":
         "lr": 0.001,
         "momentum": 0.9,
     }
-    max_epochs = 10
     optimizer_params_finetune = {
         "lr": 0.0001,
         "momentum": 0.9,
@@ -89,14 +92,14 @@ if __name__ == "__main__":
         scheduler_params,
         optimizer,
         optimizer_params,
-        max_epochs,
+        args.max_epochs,
         model,
     )
 
     model = train_model(
         model,
         dataloaders,
-        num_epochs=max_epochs,
+        num_epochs=args.max_epochs,
         fine_tune=False,
         optimizer_params=optimizer_params,
         scheduler_params=scheduler_params,
