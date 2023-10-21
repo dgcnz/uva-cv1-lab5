@@ -92,3 +92,11 @@ class LeNet5DeepImproved(VisionModel):
         self._model_dict["fc"] = nn.Linear(84, num_classes)
         self._model = nn.Sequential(self._model_dict)
         return self._model
+
+    def freeze_last_two(self):
+        for param in self._model.parameters():
+            param.requires_grad = False
+        for param in self._model.fc.parameters():
+            param.requires_grad = True
+        for param in self._model.f6.parameters():
+            param.requires_grad = True

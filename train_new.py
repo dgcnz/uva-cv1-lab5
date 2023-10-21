@@ -20,7 +20,7 @@ from omegaconf import OmegaConf
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument(
-        "--dataset_config", default="config/datasets/stl10.yaml", type=str, help="dataset"
+        "--dataset_config", default="config/datasets/cifar100.yaml", type=str, help="dataset"
     )
     parser.add_argument(
         "--model", default="twolayernet", type=str, help="model", choices=["twolayernet", "lenet5", "lenet5deepimproved"]
@@ -63,14 +63,12 @@ if __name__ == "__main__":
         "step_size": 7,
         "gamma": 0.1,
     }
-    optimizer = optim.SGD
+    optimizer = optim.Adam
     optimizer_params = {
         "lr": 0.001,
-        "momentum": 0.9,
     }
     optimizer_params_finetune = {
         "lr": 0.0001,
-        "momentum": 0.9,
     }
 
     dataset_classes = {"cifar100": CIFAR100_loader, "stl10": STL10_Dataset, "cifar10": CIFAR10}
