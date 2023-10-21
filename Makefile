@@ -11,3 +11,6 @@ sweep-twolayer-cifar100:
 
 sweep-lenet5-finetune:
 	wandb sweep --project sweep-lenet5-finetune sweep_lenet5_finetune.yaml
+
+sweep-lenet5deep-finetune:
+	wandb sweep --project sweep-lenet5deep-finetune sweep_lenet5deep_finetune.yaml
